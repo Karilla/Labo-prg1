@@ -1,0 +1,1 @@
+g++ %1 -O2 -Wall -Wextra -Wconversion -Wsign-conversion -Wvla -pedantic -o %1.exe
