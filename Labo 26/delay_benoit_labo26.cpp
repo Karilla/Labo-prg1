@@ -12,7 +12,6 @@ int main()
     vector<string> v1;
     vector<string> v2;
     string text;
-    string punctuation(",.:;?! \r\n");
     size_t begin = 0;
     size_t end;
     string sub;

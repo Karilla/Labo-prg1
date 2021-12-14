@@ -1,0 +1,14 @@
+# ninja log v5
+0	303	6606743766191851	CMakeFiles/Labo_28.dir/word.cpp.obj	cc8e8b9cbe393082
+15	369	6606743766902293	CMakeFiles/Labo_28.dir/main.cpp.obj	55afca5628b3eac2
+370	519	6606743768357420	Labo_28.exe	3ecd2b304fbc5bf7
+3	478	6607840795156281	CMakeFiles/Labo_28.dir/main.cpp.obj	55afca5628b3eac2
+479	854	6607840798902430	Labo_28.exe	3ecd2b304fbc5bf7
+4	312	6607883549161616	CMakeFiles/Labo_28.dir/main.cpp.obj	55afca5628b3eac2
+6	270	6608327002708165	CMakeFiles/Labo_28.dir/word.cpp.obj	cc8e8b9cbe393082
+270	356	6608327003537521	Labo_28.exe	3ecd2b304fbc5bf7
+3	295	6608327155200396	CMakeFiles/Labo_28.dir/main.cpp.obj	55afca5628b3eac2
+296	380	6608327155986807	Labo_28.exe	3ecd2b304fbc5bf7
+7	395	6608340267925854	CMakeFiles/Labo_28.dir/word.cpp.obj	cc8e8b9cbe393082
+3	405	6608340268045451	CMakeFiles/Labo_28.dir/main.cpp.obj	55afca5628b3eac2
+405	494	6608340268882627	Labo_28.exe	3ecd2b304fbc5bf7
