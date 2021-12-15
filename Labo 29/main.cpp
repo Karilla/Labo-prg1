@@ -6,6 +6,11 @@ using namespace std;
 
 int main()
 {
+    Uint u1(40);
+    Uint u2(40);
+    Uint u3 = u1 + u2;
+
+    /**
     string nombre;
     cout << "Introduire un nombre entier: ";
     cin >> nombre;
@@ -60,5 +65,6 @@ int main()
         p = gen_random(nb); // Vérification gen_random
         cout << p << endl;
     } while (!prime(p));  // Vérification exponentiation modulaire, prime
+     */
 }
 
