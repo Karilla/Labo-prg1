@@ -9,9 +9,24 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <cmath>
 
 class Uint {
+    friend bool operator<(const Uint& lhs, const Uint& rhs);
+
+    friend bool operator==(const Uint& lhs, const Uint& rhs);
+
+    friend bool operator>(const Uint& lhs, const Uint& rhs);
+
     friend Uint operator+(Uint lhs, const Uint& rhs);
+
+    friend Uint operator-(Uint lhs, const Uint& rhs);
+
+    friend Uint operator*(Uint lhs, const Uint& rhs);
+
+    friend Uint operator*(Uint lhs, const int scalaire);
+
+    friend std::ostream& operator<<(std::ostream& lhs, const Uint& rhs);
 public:
     /**
      *
@@ -29,19 +44,14 @@ public:
 
     Uint& operator +=(const Uint& number);
 
-    void print();
+    Uint& operator -=(const Uint& number);
 
+    Uint& operator *=(const Uint& rhs);
+
+    static int comp(Uint u1, Uint u2);
 private:
 
     std::vector<uint64_t> vectorNumber;
-
-    /**
-     *
-     * @param u1
-     * @param u2
-     * @return
-     */
-    int comp(Uint u1, Uint u2);
 };
 
 

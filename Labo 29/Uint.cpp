@@ -1,7 +1,6 @@
 //
-// Created by bdela on 14/12/2021.
+// Created by bdela on 14/12/2021
 //
-
 #include "Uint.h"
 
 using namespace std;
@@ -30,7 +29,32 @@ Uint::Uint(std::string number)
 
 int Uint::comp(Uint u1, Uint u2)
 {
+    size_t u1Size = u1.vectorNumber.size();
+    size_t u2Size = u2.vectorNumber.size();
 
+    if(u1Size > u2Size)
+    {
+        return 1;
+    }
+    else if (u1Size < u2Size)
+    {
+        return -1;
+    }
+    else
+    {
+        for(int i = u1Size; i > 0; i--)
+        {
+            if(u1.vectorNumber[i-1] > u2.vectorNumber[i - 1])
+            {
+                return 1;
+            }
+            else if(u1.vectorNumber[i-1] < u2.vectorNumber[i - 1])
+            {
+                return -1;
+            }
+        }
+        return 0;
+    }
 }
 
 Uint& Uint::operator+=(const Uint& number)
@@ -75,17 +99,93 @@ Uint& Uint::operator+=(const Uint& number)
             carry = (number.vectorNumber[i] + this->vectorNumber[i] + carry) / 10;
         }
 
-        for(int i = vector2Size; i < vector1Size; i++)
+        for(size_t i = vector2Size; i < vector1Size; i++)
         {
             temp.vectorNumber.push_back(number.vectorNumber[i] + carry);
             carry = 0;
         }
     }
+    *this = temp;
+    return *this;
+}
+
+Uint& Uint::operator-=(const Uint& number)
+{
+
+}
+
+Uint& Uint::operator*=(const Uint &rhs)
+{
+    size_t vector1Size = this->vectorNumber.size();
+    size_t vector2Size = rhs.vectorNumber.size();
+    Uint temp(0);
+    int x;
+
+    if(vector1Size > vector2Size)
+    {
+        for(int i = vector2Size; i > 0;i--)
+        {
+            x = rhs.vectorNumber[i-1] * pow(10,i-1);
+            temp+= (*this * (rhs.vectorNumber[i-1] * pow(10,i-1)));
+        }
+    }
+    else
+    {
+        for(int i = vector1Size; i > 0;i--)
+        {
+            temp+= (rhs * (int)(this->vectorNumber[i-1] * pow(10,i - 1)));
+        }
+    }
+    *this = temp;
     return temp;
+}
+
+Uint operator-(Uint lhs, const Uint& rhs)
+{
+    lhs -= rhs;
+    return lhs;
 }
 
 Uint operator+(Uint lhs, const Uint& rhs)
 {
     lhs += rhs;
+    return lhs;
+}
+
+Uint operator*(Uint lhs, const Uint& rhs)
+{
+    lhs *= rhs;
+    return lhs;
+}
+
+Uint operator*(Uint lhs, const int scalaire)
+{
+    Uint tmpObject;
+    int tmp = 0;
+    int carry = 0;
+    for(int i = 0; i < lhs.vectorNumber.size(); i++)
+    {
+        tmp = lhs.vectorNumber[i] * scalaire;
+        tmp += carry;
+        carry = tmp / 10;
+        tmpObject.vectorNumber.push_back(tmp % 10);
+    }
+    if(carry)
+    {
+        while(carry > 0)
+        {
+            tmpObject.vectorNumber.push_back(carry % 10);
+            carry /= 10;
+        }
+    }
+    return tmpObject;
+}
+
+std::ostream& operator<<(std::ostream& lhs, const Uint& rhs)
+{
+    for(int i = rhs.vectorNumber.size(); i > 0; i--)
+    {
+        lhs << rhs.vectorNumber[i-1];
+    }
     return lhs;
 }

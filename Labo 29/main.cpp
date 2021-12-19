@@ -6,11 +6,6 @@ using namespace std;
 
 int main()
 {
-    Uint u1(40);
-    Uint u2(40);
-    Uint u3 = u1 + u2;
-
-    /**
     string nombre;
     cout << "Introduire un nombre entier: ";
     cin >> nombre;
@@ -19,15 +14,15 @@ int main()
     n = Uint(nombre); // Vérification constructeur par string
 
     cout << "Nombre lu " << n << endl; // Vérification opérateur <<
-
     Uint factorielle(1); // Vérification constructeur par entier (explicite)
     cout << factorielle << endl;
+
     for (size_t i = 2; i <= nb; ++i)
     {
         factorielle *= i; // Vérification *= size_t
         cout << i << "! = " << factorielle << endl;
     }
-
+/*
     factorielle = 1; // Vérification constructeur par entier implicite
     for (Uint i = 2; i <= n; ++i) // Vérification <= et ++
     {
