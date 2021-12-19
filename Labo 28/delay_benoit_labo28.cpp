@@ -15,10 +15,6 @@
 
 using namespace std;
 
-
-
-<php dotz comlksdfbkads lidbfasdkhlbasd
-
 int main()
 {
     string text = "CaCA";
