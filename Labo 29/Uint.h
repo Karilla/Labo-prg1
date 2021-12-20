@@ -18,6 +18,10 @@ class Uint {
 
     friend bool operator>(const Uint& lhs, const Uint& rhs);
 
+    friend bool operator>=(const Uint& lhs, const Uint& rhs);
+
+    friend bool operator<=(const Uint& lhs, const Uint& rhs);
+
     friend Uint operator+(Uint lhs, const Uint& rhs);
 
     friend Uint operator-(Uint lhs, const Uint& rhs);
@@ -41,6 +45,10 @@ public:
     Uint(std::string number);
 
     Uint();
+
+    Uint& operator++();
+
+    Uint operator++(int);
 
     Uint& operator +=(const Uint& number);
 

@@ -1,6 +1,5 @@
 #include "Uint.h"
 #include <iostream>
-#include <string>
 
 using namespace std;
 
@@ -22,7 +21,7 @@ int main()
         factorielle *= i; // Vérification *= size_t
         cout << i << "! = " << factorielle << endl;
     }
-/*
+
     factorielle = 1; // Vérification constructeur par entier implicite
     for (Uint i = 2; i <= n; ++i) // Vérification <= et ++
     {
@@ -38,7 +37,7 @@ int main()
         fibo_m2 = fibo_m1;
         fibo_m1 = fibonacci;
     }
-
+    /*
     // Vérification -, > et -=
     for (Uint i = n - 2; i > 0; i -= 1)
     {

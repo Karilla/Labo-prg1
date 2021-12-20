@@ -114,6 +114,19 @@ Uint& Uint::operator-=(const Uint& number)
 
 }
 
+Uint& Uint::operator++()
+{
+    *this += Uint(1);
+    return *this;
+}
+
+Uint Uint::operator++(int)
+{
+    Uint temp = *this;
+    temp += Uint(1);
+    return temp;
+}
+
 Uint& Uint::operator*=(const Uint &rhs)
 {
     size_t vector1Size = this->vectorNumber.size();
@@ -188,4 +201,48 @@ std::ostream& operator<<(std::ostream& lhs, const Uint& rhs)
         lhs << rhs.vectorNumber[i-1];
     }
     return lhs;
+}
+bool operator<(const Uint& lhs, const Uint& rhs)
+{
+    if(Uint::comp(lhs,rhs) == -1)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool operator<=(const Uint& lhs, const Uint& rhs)
+{
+    if(Uint::comp(lhs,rhs) <= 0)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool operator==(const Uint& lhs, const Uint& rhs)
+{
+    if(Uint::comp(lhs,rhs) == 0)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool operator>(const Uint& lhs, const Uint& rhs)
+{
+    if(Uint::comp(lhs,rhs) == 1)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool operator>=(const Uint& lhs, const Uint& rhs)
+{
+    if(Uint::comp(lhs,rhs) >= 0)
+    {
+        return true;
+    }
+    return false;
 }
