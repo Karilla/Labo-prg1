@@ -56,6 +56,10 @@ public:
 
     Uint& operator *=(const Uint& rhs);
 
+    Uint operator=(const int rhs);
+
+    Uint operator=(const std::string rhs);
+
     static int comp(Uint u1, Uint u2);
 private:
 

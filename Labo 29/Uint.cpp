@@ -111,7 +111,29 @@ Uint& Uint::operator+=(const Uint& number)
 
 Uint& Uint::operator-=(const Uint& number)
 {
+    size_t vector1Size = this->vectorNumber.size();
+    size_t vector2Size = number.vectorNumber.size();
+    Uint numberCopy = number;
+    Uint temp;
 
+    if(vector2Size > vector1Size)
+    {
+        cerr << "ERREUR: RESULTAT NEGATIF" << endl;
+        Uint error(404);
+        return error;
+    }
+    else if(vector1Size > vector2Size)
+    {
+        //numberCopy.vectorNumber.resize(vector1Size, 0);
+        for(size_t i = 0; i < vector1Size; i++)
+        {
+
+        }
+    }
+    else
+    {
+
+    }
 }
 
 Uint& Uint::operator++()
@@ -124,6 +146,18 @@ Uint Uint::operator++(int)
 {
     Uint temp = *this;
     temp += Uint(1);
+    return temp;
+}
+
+Uint Uint::operator=(const int rhs)
+{
+    Uint temp(rhs);
+    return temp;
+}
+
+Uint Uint::operator=(const std::string rhs)
+{
+    Uint temp(rhs);
     return temp;
 }
 

@@ -5,6 +5,10 @@ using namespace std;
 
 int main()
 {
+    Uint u1(10);
+    Uint u2 = 3434;
+    cout << (u1 - u2);
+    /**
     string nombre;
     cout << "Introduire un nombre entier: ";
     cin >> nombre;
