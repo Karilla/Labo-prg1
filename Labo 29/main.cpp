@@ -3,12 +3,16 @@
 
 using namespace std;
 
+Uint gen_random(int nb);
+
+bool prime(Uint nb);
+
 int main()
 {
-    Uint u1(10);
-    Uint u2 = 3434;
-    cout << (u1 - u2);
-    /**
+    Uint u1 = 4;
+    Uint u2 = 4;
+    Uint u3 = u1 % u2;
+    cout << u3;
     string nombre;
     cout << "Introduire un nombre entier: ";
     cin >> nombre;
@@ -41,21 +45,20 @@ int main()
         fibo_m2 = fibo_m1;
         fibo_m1 = fibonacci;
     }
-    /*
     // Vérification -, > et -=
-    for (Uint i = n - 2; i > 0; i -= 1)
+    for (Uint i = (n - 2); i > 0; i -= 1)
     {
         cout << "fibonacci(" << i << ") = " << fibo_m2 << endl;
         fibonacci = fibo_m1;
         fibo_m1 = fibo_m2;
         fibo_m2 = fibonacci - fibo_m2; // Vérification -
     }
-
     for (Uint i = n; i > 0; i -= 1)
     {
         cout << i << "! = " << factorielle << endl;
         factorielle = factorielle / i; // Vérification Uint/Uint
     }
+
 
     Uint p;
     do
@@ -63,6 +66,9 @@ int main()
         p = gen_random(nb); // Vérification gen_random
         cout << p << endl;
     } while (!prime(p));  // Vérification exponentiation modulaire, prime
-     */
 }
 
+Uint gen_random(int nb)
+{
+    
+}

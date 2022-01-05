@@ -12,25 +12,30 @@
 #include <cmath>
 
 class Uint {
-    friend bool operator<(const Uint& lhs, const Uint& rhs);
+    friend bool operator<(const Uint &lhs, const Uint &rhs);
 
-    friend bool operator==(const Uint& lhs, const Uint& rhs);
+    friend bool operator==(const Uint &lhs, const Uint &rhs);
 
-    friend bool operator>(const Uint& lhs, const Uint& rhs);
+    friend bool operator>(const Uint &lhs, const Uint &rhs);
 
-    friend bool operator>=(const Uint& lhs, const Uint& rhs);
+    friend bool operator>=(const Uint &lhs, const Uint &rhs);
 
-    friend bool operator<=(const Uint& lhs, const Uint& rhs);
+    friend bool operator<=(const Uint &lhs, const Uint &rhs);
 
-    friend Uint operator+(Uint lhs, const Uint& rhs);
+    friend Uint operator+(Uint lhs, const Uint &rhs);
 
-    friend Uint operator-(Uint lhs, const Uint& rhs);
+    friend Uint operator-(Uint lhs, const Uint &rhs);
 
-    friend Uint operator*(Uint lhs, const Uint& rhs);
+    friend Uint operator*(Uint lhs, const Uint &rhs);
 
     friend Uint operator*(Uint lhs, const int scalaire);
 
-    friend std::ostream& operator<<(std::ostream& lhs, const Uint& rhs);
+    friend Uint operator/(Uint &lhs, const Uint &rhs);
+
+    friend Uint operator%(Uint lhs, const Uint &rhs);
+
+    friend std::ostream &operator<<(std::ostream &lhs, const Uint &rhs);
+
 public:
     /**
      *
@@ -44,27 +49,41 @@ public:
      */
     Uint(std::string number);
 
-    Uint();
+    Uint(void);
 
-    Uint& operator++();
+    Uint operator/(int rhs) const;
+
+    Uint &operator++();
 
     Uint operator++(int);
 
-    Uint& operator +=(const Uint& number);
+    Uint &operator+=(const Uint &number);
 
-    Uint& operator -=(const Uint& number);
+    Uint &operator-=(const Uint &number);
 
-    Uint& operator *=(const Uint& rhs);
+    Uint &operator*=(const Uint &rhs);
 
-    Uint operator=(const int rhs);
+    Uint& operator=(const int rhs);
 
-    Uint operator=(const std::string rhs);
+    Uint& operator=(const std::string rhs);
+
+    Uint& operator/=(int rhs);
+
+    Uint& operator/=(const Uint &rhs);
+
+    Uint& operator%=(Uint rhs);
 
     static int comp(Uint u1, Uint u2);
+
+
 private:
 
     std::vector<uint64_t> vectorNumber;
-};
 
+    Uint expMod(const Uint &dividende, const Uint &divisieur, Uint& reste);
+
+    void refactor();
+
+};
 
 #endif //LABO_29_UINT_H
