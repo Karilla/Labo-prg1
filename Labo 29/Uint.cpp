@@ -5,7 +5,9 @@
 
 using namespace std;
 
-const std::string ERROR_MESSAGE = "ERREUR: RESULTAT NEGATIF";
+auto genDigit = bind(uniform_int_distribution<int>(0,9), mt19937(648364));
+
+const string ERROR_MESSAGE = "ERREUR: RESULTAT NEGATIF";
 
 Uint::Uint() {
 
@@ -68,6 +70,21 @@ int Uint::comp(Uint u1, Uint u2) {
         }
         return 0;
     }
+}
+
+Uint Uint::rand(int nbDigits)
+{
+    Uint temp;
+    for(uint8_t i = 0; i < nbDigits; i++)
+    {
+        int tempDigit = genDigit();
+        if((i == nbDigits - 1) and (tempDigit == 0))
+        {
+            tempDigit++;
+        }
+        temp.vectorNumber.push_back(tempDigit);
+    }
+    return temp;
 }
 
 Uint &Uint::operator+=(const Uint &number) {
@@ -192,6 +209,11 @@ Uint &Uint::operator-=(const Uint &number) {
         this->refactor();
         return *this;
     }
+}
+
+size_t Uint::getSize()
+{
+    return this->vectorNumber.size();
 }
 
 Uint &Uint::operator/=(const Uint &rhs)
@@ -376,4 +398,9 @@ bool operator>=(const Uint &lhs, const Uint &rhs) {
         return true;
     }
     return false;
+}
+
+bool operator!=(const Uint &lhs, const Uint &rhs)
+{
+    return !(lhs == rhs);
 }

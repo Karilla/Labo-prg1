@@ -10,11 +10,16 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include <limits>
+#include <random>
+#include <functional>
 
 class Uint {
     friend bool operator<(const Uint &lhs, const Uint &rhs);
 
     friend bool operator==(const Uint &lhs, const Uint &rhs);
+
+    friend bool operator!=(const Uint &lhs, const Uint &rhs);
 
     friend bool operator>(const Uint &lhs, const Uint &rhs);
 
@@ -73,7 +78,11 @@ public:
 
     Uint& operator%=(Uint rhs);
 
+    size_t getSize();
+
     static int comp(Uint u1, Uint u2);
+
+    static Uint rand(int nbDigits);
 
 
 private:
