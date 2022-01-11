@@ -5,8 +5,6 @@
 
 using namespace std;
 
-auto genDigit = bind(uniform_int_distribution<int>(0,9), mt19937(648364));
-
 const string ERROR_MESSAGE = "ERREUR: RESULTAT NEGATIF";
 
 Uint::Uint() {
@@ -14,10 +12,18 @@ Uint::Uint() {
 }
 
 Uint::Uint(uint64_t number) {
-    while (number > 0) {
-        vectorNumber.push_back(number % 10);
-        number /= 10;
+    if(number)
+    {
+        while (number > 0) {
+            vectorNumber.push_back(number % 10);
+            number /= 10;
+        }
     }
+    else
+    {
+        vectorNumber.push_back(0);
+    }
+
 }
 
 Uint::Uint(std::string number) {
@@ -28,7 +34,8 @@ Uint::Uint(std::string number) {
 
 void Uint::refactor()
 {
-    for(size_t i = this->vectorNumber.size(); i > 0; i--)
+    int tempSize = this->getSize();
+    for(int i = tempSize; i > 0; i--)
     {
         if(this->vectorNumber[i -1] == 0)
         {
@@ -56,6 +63,7 @@ int Uint::comp(Uint u1, Uint u2) {
     size_t u1Size = u1.vectorNumber.size();
     size_t u2Size = u2.vectorNumber.size();
 
+
     if (u1Size > u2Size) {
         return 1;
     } else if (u1Size < u2Size) {
@@ -74,17 +82,25 @@ int Uint::comp(Uint u1, Uint u2) {
 
 Uint Uint::rand(int nbDigits)
 {
-    Uint temp;
-    for(uint8_t i = 0; i < nbDigits; i++)
+    static random_device device;
+    mt19937 gen(device());
+    uniform_int_distribution<> randInt(0,9);
+
+    Uint randTemp;
+
+    for(int i = 0; i < nbDigits - 1; i++)
     {
-        int tempDigit = genDigit();
-        if((i == nbDigits - 1) and (tempDigit == 0))
-        {
-            tempDigit++;
-        }
-        temp.vectorNumber.push_back(tempDigit);
+        randTemp.vectorNumber.push_back(randInt(gen));
     }
-    return temp;
+
+    int tempDigit;
+    do {
+        tempDigit = randInt(gen);
+    }while(tempDigit == 0);
+
+    randTemp.vectorNumber.push_back(tempDigit);
+
+    return randTemp;
 }
 
 Uint &Uint::operator+=(const Uint &number) {
@@ -109,8 +125,13 @@ Uint &Uint::operator+=(const Uint &number) {
         }
 
         for (int i = vector1Size; i < vector2Size; i++) {
-            temp.vectorNumber.push_back(this->vectorNumber[i] + carry);
-            carry = 0;
+            temp.vectorNumber.push_back((this->vectorNumber[i] + carry) % 10);
+            carry = (this->vectorNumber[i] + carry) / 10;
+        }
+
+        if(carry)
+        {
+            temp.vectorNumber.push_back(carry);
         }
     } else if (vector1Size > vector2Size) {
         for (int i = 0; i < vector2Size; i++) {
@@ -119,8 +140,12 @@ Uint &Uint::operator+=(const Uint &number) {
         }
 
         for (size_t i = vector2Size; i < vector1Size; i++) {
-            temp.vectorNumber.push_back(number.vectorNumber[i] + carry);
-            carry = 0;
+            temp.vectorNumber.push_back((number.vectorNumber[i] + carry) % 10);
+            carry = (number.vectorNumber[i] + carry) / 10 ;
+        }
+        if(carry)
+        {
+            temp.vectorNumber.push_back(carry);
         }
     }
     *this = temp;
@@ -165,7 +190,7 @@ Uint &Uint::operator-=(const Uint &number) {
         }
 
         bool report = false;
-        for(size_t i = 0; i < vector2Size; i++)
+        for(int i = 0; i < vector2Size; i++)
         {
             if(report)
             {
@@ -201,7 +226,7 @@ Uint &Uint::operator-=(const Uint &number) {
                 else
                 {
                     report = false;
-                    this->vectorNumber[index]--;
+                    --this->vectorNumber[index];
                 }
                 index++;
             }
@@ -219,24 +244,41 @@ size_t Uint::getSize()
 Uint &Uint::operator/=(const Uint &rhs)
 {
     Uint reste;
-    *this = expMod(*this,rhs, reste);
+    *this = divRem(*this,rhs, reste);
     return *this;
 }
 
-Uint &Uint::operator%=(Uint rhs)
+Uint &Uint::operator%=(const Uint &rhs)
 {
-    expMod(*this, rhs, *this);
+    divRem(*this, rhs, *this);
     return *this;
+}
+
+Uint &Uint::operator%=(uint32_t rhs)
+{
+    //Quick and dirty way to get the mod with a uint32_t without divAndRem()
+    return *this -= (*this / rhs) * rhs;
 }
 
 Uint &Uint::operator++() {
-    *this += Uint(1);
+    *this += 1;
     return *this;
 }
 
 Uint Uint::operator++(int) {
     Uint temp = *this;
-    temp += Uint(1);
+    temp += 1;
+    return temp;
+}
+
+Uint &Uint::operator--() {
+    *this -= 1;
+    return *this;
+}
+
+Uint Uint::operator--(int) {
+    Uint temp = *this;
+    temp -= 1;
     return temp;
 }
 
@@ -253,6 +295,24 @@ Uint& Uint::operator=(const std::string rhs) {
 }
 
 Uint &Uint::operator*=(const Uint &rhs) {
+    // Use a temporary value to work on it
+    Uint temp(0);
+
+    // Iterates on each members of the right value
+    for (size_t i = 0; i != rhs.vectorNumber.size(); i++)
+    {
+        // Adds in temp the result of the multiplication of right and left
+        temp += rhs.vectorNumber.at(i) * *this;
+
+        // If the size of the right value is too small, insert
+        if (i != 0)
+            vectorNumber.insert(vectorNumber.cbegin(), 0);
+    }
+
+    *this = temp;
+
+    return *this;
+    /*
     size_t vector1Size = this->vectorNumber.size();
     size_t vector2Size = rhs.vectorNumber.size();
     Uint temp(0);
@@ -268,6 +328,7 @@ Uint &Uint::operator*=(const Uint &rhs) {
     }
     *this = temp;
     return temp;
+     */
 }
 
 /*
@@ -286,7 +347,7 @@ Uint &Uint::operator*=(const Uint &rhs) {
 }
 */
 
-Uint Uint::expMod(const Uint &dividende, const Uint &divisieur, Uint& reste)
+Uint Uint::divRem(const Uint &dividende, const Uint &divisieur, Uint& reste)
 {
     Uint powerOfTwo(1);
     Uint b = divisieur;
@@ -298,10 +359,13 @@ Uint Uint::expMod(const Uint &dividende, const Uint &divisieur, Uint& reste)
     Uint quotient(0);
     reste = dividende;
 
+    cout << b << " " << dividende << endl;
+
     while (reste>=divisieur)
     {
         b /= 2;
         powerOfTwo /=  2;
+
         if(reste >= b)
         {
             quotient += powerOfTwo;
@@ -327,16 +391,27 @@ Uint operator*(Uint lhs, const Uint &rhs) {
     return lhs;
 }
 
-Uint operator/(Uint &lhs, const Uint &rhs)
+Uint Uint::operator/(const Uint &rhs) const
 {
-    lhs /= rhs;
-    return lhs;
+    Uint temp = *this;
+    temp /= rhs;
+    return temp;
 }
 
-Uint operator%(Uint lhs, const Uint &rhs)
+Uint Uint::operator%(const Uint &rhs) const
 {
-    lhs %= rhs;
-    return lhs;
+    cout << "Hallo 9" << endl;
+    Uint temp = *this;
+    temp %= rhs;
+    cout << "Hallo 10" << endl;
+    return temp;
+}
+
+Uint Uint::operator%(uint32_t rhs) const
+{
+    Uint temp = *this;
+    temp %= rhs;
+    return temp;
 }
 
 Uint operator*(Uint lhs, const int scalaire) {

@@ -13,18 +13,10 @@ Uint expMod(Uint base, Uint exposant, Uint modulo);
 int main()
 {
 
-    Uint test(7919);
-    if(prime(test))
-    {
-        cout << "C'est prime !" << endl;
-    }
-    else
-    {
-        cout << "C'est pas prime :(" << endl;
-    }
-
+    Uint u1(567);
+    Uint u2(534);
+    cout << u1 * u2 << endl;
     /*
-    cout << u3;
     string nombre;
     cout << "Introduire un nombre entier: ";
     cin >> nombre;
@@ -71,18 +63,20 @@ int main()
         factorielle = factorielle / i; // Vérification Uint/Uint
     }
 
-    /*
     Uint p;
+    bool isPrime;
     do
     {
         p = gen_random(nb); // Vérification gen_random
         cout << p << endl;
-    } while (!prime(p));  // Vérification exponentiation modulaire, prime
+        isPrime = prime(p);
+    } while (isPrime);  // Vérification exponentiation modulaire, prime
      */
 }
 
 Uint gen_random(int nb)
 {
+    cout << "?" << endl;
     Uint temp;
     temp = Uint::rand(nb);
     return temp;
@@ -90,26 +84,26 @@ Uint gen_random(int nb)
 
 bool prime(Uint nb)
 {
+    cout << "Hallo " << endl;
     Uint two(2);
     if(nb < two){return false;}
     if(nb == two){return true;}
 
+    cout << "Hallo 2" << endl;
     for(int i = 0; i < 10; i++)
     {
-        Uint a;
-        do {
-            a = Uint::rand(nb.getSize());
-            cout << a << endl;
-        } while (a >= nb);
+        Uint a = (Uint::rand(nb.getSize()) % nb) + 1;
+        cout << "Hallo 3" << endl;
+        Uint exp = nb - 1;
 
-        if(expMod(a, nb - 1, nb) != 1){return false;}
+        if(expMod(a, exp, nb) != 1){return false;}
         Uint q(1);
-        Uint u = (nb - 1);
-
-        while(u % 2 == 0 and q == 1)
+        cout << "Hallo 4" << endl;
+        while(exp % 2 == 0 and q == 1)
         {
-            u /= 2;
-            q = expMod(a,u,nb);
+            cout << "ded" << endl;
+            exp /= 2;
+            q = expMod(a,exp,nb);
             if(q != 1 and q != (nb - 1)){return false;}
 
         }
@@ -120,8 +114,9 @@ bool prime(Uint nb)
 
 Uint expMod(Uint base, Uint exposant, Uint modulo)
 {
-    Uint result(1);
-    while (exposant > Uint("0"))
+    cout << "Hallo 5" << endl;
+    Uint result = 1;
+    while (exposant > 0)
     {
         if(exposant % 2 == 0)
         {
@@ -131,8 +126,9 @@ Uint expMod(Uint base, Uint exposant, Uint modulo)
         else
         {
             result = (result * base) % modulo;
-            exposant -= 1;
+            --exposant;
         }
     }
+    cout << "Hallo 6" << endl;
     return result;
 }

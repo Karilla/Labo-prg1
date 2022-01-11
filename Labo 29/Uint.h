@@ -35,10 +35,6 @@ class Uint {
 
     friend Uint operator*(Uint lhs, const int scalaire);
 
-    friend Uint operator/(Uint &lhs, const Uint &rhs);
-
-    friend Uint operator%(Uint lhs, const Uint &rhs);
-
     friend std::ostream &operator<<(std::ostream &lhs, const Uint &rhs);
 
 public:
@@ -58,9 +54,19 @@ public:
 
     Uint operator/(int rhs) const;
 
+    Uint operator/(const Uint &rhs) const;
+
+    Uint operator%(uint32_t rhs) const;
+
+    Uint operator%(const Uint &rhs) const;
+
     Uint &operator++();
 
     Uint operator++(int);
+
+    Uint &operator--();
+
+    Uint operator--(int);
 
     Uint &operator+=(const Uint &number);
 
@@ -76,7 +82,9 @@ public:
 
     Uint& operator/=(const Uint &rhs);
 
-    Uint& operator%=(Uint rhs);
+    Uint& operator%=(const Uint &rhs);
+
+    Uint &operator%=(uint32_t rhs);
 
     size_t getSize();
 
@@ -89,7 +97,7 @@ private:
 
     std::vector<uint64_t> vectorNumber;
 
-    Uint expMod(const Uint &dividende, const Uint &divisieur, Uint& reste);
+    Uint divRem(const Uint &dividende, const Uint &divisieur, Uint& reste);
 
     void refactor();
 
