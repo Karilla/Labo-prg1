@@ -297,15 +297,13 @@ Uint& Uint::operator=(const std::string rhs) {
 Uint &Uint::operator*=(const Uint &rhs) {
     // Use a temporary value to work on it
     Uint temp(0);
-
     // Iterates on each members of the right value
     for (size_t i = 0; i != rhs.vectorNumber.size(); i++)
     {
         // Adds in temp the result of the multiplication of right and left
-        temp += rhs.vectorNumber.at(i) * *this;
-
+        temp += *this * rhs.vectorNumber.at(i);
         // If the size of the right value is too small, insert
-        if (i != 0)
+        if (i != rhs.vectorNumber.size() - 1)
             vectorNumber.insert(vectorNumber.cbegin(), 0);
     }
 
@@ -359,7 +357,6 @@ Uint Uint::divRem(const Uint &dividende, const Uint &divisieur, Uint& reste)
     Uint quotient(0);
     reste = dividende;
 
-    cout << b << " " << dividende << endl;
 
     while (reste>=divisieur)
     {
@@ -400,10 +397,8 @@ Uint Uint::operator/(const Uint &rhs) const
 
 Uint Uint::operator%(const Uint &rhs) const
 {
-    cout << "Hallo 9" << endl;
     Uint temp = *this;
     temp %= rhs;
-    cout << "Hallo 10" << endl;
     return temp;
 }
 
