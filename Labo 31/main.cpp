@@ -37,8 +37,10 @@ string lire_donnees(const string& nom_in);
 // Calcule le nombre de caractères que n peut contenir au maximum
 size_t determine_taille_bloc(const Uint& n);
 
-void   crypte(const string& nom_cle, const string&nom_in, const string& nom_out);
+void crypte(const string& nom_cle, const string&nom_in, const string& nom_out);
 void decrypte(const string& nom_cle, const string&nom_in, const string& nom_out);
+
+Uint expMod(Uint base, Uint exposant, Uint modulo);
 
 int main(int argc, char* argv[])
 {
@@ -156,7 +158,7 @@ void crypte(const string& nom_cle, const string& nom_in, const string& nom_out)
         throw Erreur_fichier(nom_out + ": pas ouvrable en ecriture\n");
 
     // Écriture de la taille du fichier d'origine
-    fichier << mod_pow(in.length(), e, n) << endl;
+    fichier << expMod(in.length(), e, n) << endl;
 
     // Bourrage des données d'origine pour arriver à une taille multiple d'un bloc
     while (in.length() % taille_bloc != 0)
@@ -170,7 +172,7 @@ void crypte(const string& nom_cle, const string& nom_in, const string& nom_out)
         { m *= MAX_CHAR;
             m += (unsigned char) in.at(i + j);
         }
-        if (! (fichier << mod_pow(m, e, n) << endl) )
+        if (! (fichier << expMod(m, e, n) << endl) )
         {
             fichier.close();
             throw Erreur_fichier(nom_out + ": erreur en ecriture\n");
@@ -192,7 +194,7 @@ void decrypte(const string& nom_cle, const string& nom_in, const string& nom_out
     fichier.open(nom_in, ios::in);
 
     fichier >> c; // Le premier bloc donne la taille du fichier à reconstituer
-    m = mod_pow(c, d, n);
+    m = expMod(c, d, n);
     size_t taille_fichier = size_t(uint64_t(m));
 
     string bloc(taille_bloc, '\0'),
@@ -206,7 +208,7 @@ void decrypte(const string& nom_cle, const string& nom_in, const string& nom_out
             fichier.close();
             throw Erreur_fichier(nom_in + ": corrompu ou mauvaise cle\n");
         }
-        m = mod_pow(c, d, n);
+        m = expMod(c, d, n);
         for (size_t j = 0; j < taille_bloc; ++j)
         {
             bloc.at(j) = char(uint64_t(m % MAX_CHAR));
@@ -232,4 +234,23 @@ void decrypte(const string& nom_cle, const string& nom_in, const string& nom_out
         throw Erreur_fichier(nom_out + ": erreur en ecriture\n");
     }
     fichier.close();
+}
+
+Uint expMod(Uint base, Uint exposant, Uint modulo)
+{
+    Uint result = 1;
+    while (exposant > 0)
+    {
+        if(exposant % 2 == 0)
+        {
+            base = (base * base) % modulo;
+            exposant /= 2;
+        }
+        else
+        {
+            result = (result * base) % modulo;
+            --exposant;
+        }
+    }
+    return result;
 }

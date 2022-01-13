@@ -61,6 +61,12 @@ build CMakeFiles/Labo_31.dir/Uint.cpp.obj: CXX_COMPILER__Labo_31_Debug C$:/Users
   OBJECT_DIR = CMakeFiles\Labo_31.dir
   OBJECT_FILE_DIR = CMakeFiles\Labo_31.dir
 
+build CMakeFiles/Labo_31.dir/SUint.cpp.obj: CXX_COMPILER__Labo_31_Debug C$:/Users/bdela/Documents/HeigVD/PROG_1/Labo$ 31/SUint.cpp || cmake_object_order_depends_target_Labo_31
+  DEP_FILE = CMakeFiles\Labo_31.dir\SUint.cpp.obj.d
+  FLAGS = -g -std=gnu++14
+  OBJECT_DIR = CMakeFiles\Labo_31.dir
+  OBJECT_FILE_DIR = CMakeFiles\Labo_31.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Labo_31
@@ -69,7 +75,7 @@ build CMakeFiles/Labo_31.dir/Uint.cpp.obj: CXX_COMPILER__Labo_31_Debug C$:/Users
 #############################################
 # Link the executable Labo_31.exe
 
-build Labo_31.exe: CXX_EXECUTABLE_LINKER__Labo_31_Debug CMakeFiles/Labo_31.dir/main.cpp.obj CMakeFiles/Labo_31.dir/Uint.cpp.obj
+build Labo_31.exe: CXX_EXECUTABLE_LINKER__Labo_31_Debug CMakeFiles/Labo_31.dir/main.cpp.obj CMakeFiles/Labo_31.dir/Uint.cpp.obj CMakeFiles/Labo_31.dir/SUint.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Labo_31.dir
