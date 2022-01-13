@@ -5,10 +5,7 @@ Cryptage et décryptage de fichiers avec la technique de C. Cocks (RSA)
 
 /*
  * TODO implementer modpow
- * TODO continuer d'implementer le * entre 2 SUint
  * TODO implementer le -
- * TODO implementer le +
- * TODO implementer le /
  * TODO implementer le %
  */
 
@@ -19,11 +16,28 @@ Cryptage et décryptage de fichiers avec la technique de C. Cocks (RSA)
 #include "SUint.h"
 using namespace std;
 
+bool isPrime(Uint number);
+
+Uint expMod(Uint base, Uint exposant, Uint modulo);
+
 int main()
 {
-    SUint u1(20);
+    SUint u1(-4);
+    SUint u2(-9);
 
-    SUint u2 = u1 * 2;
+    cout << (u1 - (u1 / u2) * u2) << endl;
 
-    cout << u2 << endl;
+    SUint u3 = SUint::rand(20);
+
+    cout << u3 << endl;
+}
+
+bool isPrime(Uint number)
+{
+
+}
+
+Uint expMod(Uint base, Uint exposant, Uint modulo)
+{
+
 }

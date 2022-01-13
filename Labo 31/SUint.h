@@ -13,9 +13,17 @@ class SUint {
 
     friend std::ostream &operator<<(std::ostream &lhs, const SUint &rhs);
 
-    friend SUint operator*(SUint lhs, const Uint &rhs);
+    friend SUint operator*(SUint lhs, const SUint &rhs);
 
     friend SUint operator*(SUint lhs, const int scalaire);
+
+    friend SUint operator/(SUint lhs, const SUint &rhs);
+
+    friend SUint operator%(SUint lhs, const SUint &rhs);
+
+    friend SUint operator+(SUint lhs, const SUint &rhs);
+
+    friend SUint operator-(SUint lhs, const SUint &rhs);
 
 public:
 
@@ -26,6 +34,16 @@ public:
     SUint(int number);
 
     SUint &operator*=(const SUint &rhs);
+
+    SUint &operator/=(const SUint &rhs);
+
+    SUint &operator%=(const SUint &rhs);
+
+    SUint &operator+=(const SUint &rhs);
+
+    SUint &operator-=(const SUint &rhs);
+
+    static SUint rand(int nbDigits);
 
 private:
     Uint number;
