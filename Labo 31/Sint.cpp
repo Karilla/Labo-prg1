@@ -2,13 +2,13 @@
 // Created by bdela on 13/01/2022.
 //
 
-#include "SUint.h"
+#include "Sint.h"
 
 using namespace std;
 
 const string ERROR_STRING_NUM = "ERROR TO CONVERT STRING TO SUINT, CHARACTER IS NOT A DIGIT AT POS ";
 
-SUint::SUint(int nb)
+Sint::Sint(int nb)
 {
     if(nb < 0)
     {
@@ -22,7 +22,7 @@ SUint::SUint(int nb)
     }
 }
 
-SUint::SUint(std::string nb)
+Sint::Sint(std::string nb)
 {
     if(nb.at(0) == '-')
     {
@@ -44,7 +44,15 @@ SUint::SUint(std::string nb)
     number = nb;
 }
 
-SUint &SUint::operator+=(const SUint &rhs)
+void Sint::handleZero()
+{
+    if(number == 0)
+    {
+        sign = false;
+    }
+}
+
+Sint &Sint::operator+=(const Sint &rhs)
 {
     if(!this->sign and !rhs.sign)
     {
@@ -85,7 +93,7 @@ SUint &SUint::operator+=(const SUint &rhs)
     return *this;
 }
 
-SUint &SUint::operator-=(const SUint &rhs)
+Sint &Sint::operator-=(const Sint &rhs)
 {
     if(!this->sign and !rhs.sign)
     {
@@ -122,18 +130,19 @@ SUint &SUint::operator-=(const SUint &rhs)
             this->sign = false;
         }
     }
-
+    this->handleZero();
     return *this;
 }
 
-SUint &SUint::operator*=(const SUint &rhs)
+Sint &Sint::operator*=(const Sint &rhs)
 {
     this->number *= rhs.number;
     this->sign = this->sign ^ rhs.sign;
+    this->handleZero();
     return *this;
 }
 
-SUint& SUint::operator/=(const SUint &rhs)
+Sint& Sint::operator/=(const Sint &rhs)
 {
     this->number /= rhs.number;
     this->sign = this->sign ^ rhs.sign;
@@ -141,32 +150,63 @@ SUint& SUint::operator/=(const SUint &rhs)
     {
         this->number += 1;
     }
+    this->handleZero();
     return *this;
 }
 
-SUint& SUint::operator%=(const SUint &rhs)
+Sint& Sint::operator%=(const Sint &rhs)
 {
     *this = (*this - (*this / rhs) * rhs);
+    this->handleZero();
     return *this;
 }
 
-SUint SUint::rand(int nbDigits)
+Sint Sint::rand(int nbDigits)
 {
     static random_device device;
     mt19937 gen(device());
     uniform_int_distribution<> randInt(0,1);
 
-    SUint temp;
+    Sint temp;
     temp.sign = randInt(gen);
     temp.number = Uint::rand(nbDigits);
     return temp;
 }
 
+int Sint::comp(const Sint &u1, const Sint &u2)
+{
+    if(!u1.sign and !u2.sign)
+    {
+        return Uint::comp(u1.number, u2.number);
+    }
+    else if(!u1.sign and u2.sign)
+    {
+        return 1;
+    }
+    else if(u1.sign and !u2.sign)
+    {
+        return -1;
+    }
+    else
+    {
+        switch (Uint::comp(u1.number,u2.number)) {
+            case -1:
+                return 1;
+            case 0:
+                return 0;
+            case 1:
+                return -1;
+            default:
+                cerr << "Cé KASé" << endl;
+        }
+    }
+}
+
 //----------------------------------------------------------------------
 //Fonction amie
-SUint operator*(SUint lhs, const int scalaire)
+Sint operator*(Sint lhs, const int scalaire)
 {
-    SUint temp;
+    Sint temp;
     if(scalaire < 0)
     {
         temp.number = lhs.number * (scalaire * -1);
@@ -177,12 +217,11 @@ SUint operator*(SUint lhs, const int scalaire)
         temp.sign = lhs.sign;
         temp.number = lhs.number * scalaire;
     }
-
-
+    temp.handleZero();
     return temp;
 }
 
-std::ostream &operator<<(std::ostream &lhs, const SUint &rhs)
+std::ostream &operator<<(std::ostream &lhs, const Sint &rhs)
 {
     if(rhs.sign)
     {
@@ -192,36 +231,89 @@ std::ostream &operator<<(std::ostream &lhs, const SUint &rhs)
     {
         lhs << rhs.number;
     }
-
     return lhs;
 }
 
-SUint operator*(SUint lhs, const SUint &rhs)
+Sint operator*(Sint lhs, const Sint &rhs)
 {
     lhs *= rhs;
+    lhs.handleZero();
     return lhs;
 }
 
-SUint operator/(SUint lhs, const SUint &rhs)
+Sint operator/(Sint lhs, const Sint &rhs)
 {
     lhs /= rhs;
     return lhs;
 }
 
-SUint operator%(SUint lhs, const SUint &rhs)
+Sint operator%(Sint lhs, const Sint &rhs)
 {
     lhs %= rhs;
+    lhs.handleZero();
     return lhs;
 }
 
-SUint operator+(SUint lhs, const SUint &rhs)
+Sint operator+(Sint lhs, const Sint &rhs)
 {
     lhs += rhs;
+    lhs.handleZero();
     return lhs;
 }
 
-SUint operator-(SUint lhs, const SUint &rhs)
+Sint operator-(Sint lhs, const Sint &rhs)
 {
     lhs -= rhs;
+    lhs.handleZero();
     return lhs;
+}
+
+bool operator==(const Sint &lhs, const Sint &rhs)
+{
+    if(Sint::comp(lhs, rhs) == 0)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool operator!=(const Sint &lhs, const Sint &rhs)
+{
+    return  !(lhs == rhs);
+}
+
+bool operator<=(const Sint &lhs, const Sint &rhs)
+{
+    if(lhs == rhs or lhs < rhs)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool operator>=(const Sint &lhs, const Sint &rhs)
+{
+    if(lhs == rhs or lhs > rhs)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool operator<(const Sint &lhs, const Sint &rhs)
+{
+    if(Sint::comp(lhs,rhs) == -1)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool operator>(const Sint &lhs, const Sint &rhs)
+{
+    if(Sint::comp(lhs,rhs) == 1)
+    {
+        return true;
+    }
+    return false;
 }

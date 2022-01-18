@@ -28,6 +28,7 @@ Uint::Uint(std::string number) {
     }
 }
 
+//TODO ajouter gestion erreur depassemet du type 64bit
 Uint::operator uint64_t()
 {
     uint64_t temp;
@@ -441,6 +442,7 @@ std::ostream &operator<<(std::ostream &lhs, const Uint &rhs) {
     return lhs;
 }
 
+//TODO je ne suis pas sur que ca fonctionne a check
 std::istream &operator>>(std::istream &lhs, Uint &rhs)
 {
     string tempString;
